@@ -11,6 +11,12 @@ RUN yum makecache fast && \
     yum clean metadata && \
     yum clean all
 
+# update Systemd for cgroups v2 support
+RUN yum -y install yum-plugin-copr libseccomp && \
+    yum -y copr enable jsynacek/systemd-backports-for-centos-7 && \
+    yum -y update systemd && \
+    yum clean all
+
 # Install Ansible inventory file.
 RUN echo -e '[local]\nlocalhost ansible_connection=local' > /etc/ansible/hosts
 
